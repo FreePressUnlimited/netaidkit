@@ -1,11 +1,12 @@
 NAK_FEEDS = https://github.com/msgctl/netaidkit-feeds
 
-.PHONY: all image submodules clean mrproper update_feeds configure
+.PHONY: all image submodules clean mrproper update_feeds configure \
+	install_nak_env
 .DEFAULT: all
 
 all: image
 
-image: submodules update_feeds configure
+image: submodules update_feeds configure install_nak_env
 	+make -C openwrt
 
 submodules:
@@ -46,3 +47,9 @@ configure: submodules update_feeds
 	cd openwrt && make defconfig
 	cat netaidkit.config >> openwrt/.config
 	cd openwrt && (yes "" | make oldconfig)
+
+install_nak_env: submodules
+	rm -rf openwrt/files
+	mkdir -p openwrt/files
+	git archive --remote=netaidkit-env --format=tar HEAD | \
+		tar -x -C openwrt/files
