@@ -2,7 +2,7 @@ NAK_FEEDS = https://github.com/msgctl/netaidkit-feeds
 
 # Not really a proper Makefile, nor it ever can be. Sorry!
 .PHONY: all image submodules clean mrproper update_feeds configure \
-	install_nak_env set_ssh_password enable_root_ssh debug_image \
+	install_nak_env set_ssh_password enable_root_ssh dev_image \
     update_release_info
 .DEFAULT: all
 
