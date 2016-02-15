@@ -1,13 +1,19 @@
 NAK_FEEDS = https://github.com/msgctl/netaidkit-feeds
 
+# Not really a proper Makefile, nor it ever can be. Sorry!
 .PHONY: all image submodules clean mrproper update_feeds configure \
-	install_nak_env
+	install_nak_env set_ssh_password enable_root_ssh debug_image \
+    update_release_info
 .DEFAULT: all
 
 all: image
 
 image: submodules update_feeds configure install_nak_env
 	+make -C openwrt
+
+dev_image: submodules update_feeds configure install_nak_env \
+				enable_root_ssh set_ssh_password
+	make -C openwrt
 
 submodules:
 	git submodule init
@@ -53,3 +59,13 @@ install_nak_env: submodules
 	mkdir -p openwrt/files
 	git archive --remote=netaidkit-env --format=tar HEAD | \
 		tar -x -C openwrt/files
+
+# These changes will end up in openwrt/files, netaidkit-env remains unchanged.
+enable_root_ssh: submodules install_nak_env
+	./scripts/enable_root_ssh.py
+
+set_ssh_password: submodules install_nak_env
+	./scripts/change_rootpwd.py "\`K@qt1)pLMto"
+
+update_release_info: submodules install_nak_env
+	./scripts/make_release.sh
