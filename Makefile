@@ -8,11 +8,12 @@ NAK_FEEDS = https://github.com/msgctl/netaidkit-feeds
 
 all: image
 
-image: submodules update_feeds configure install_nak_env
+image: submodules update_feeds configure install_nak_env \
+                                        update_release_info
 	+make -C openwrt
 
 dev_image: submodules update_feeds configure install_nak_env \
-				enable_root_ssh set_ssh_password
+				enable_root_ssh set_ssh_password update_release_info
 	make -C openwrt
 
 submodules:
