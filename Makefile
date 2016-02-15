@@ -36,9 +36,6 @@ mrproper_nak: clean_nak
 mrproper: clean
 	cd openwrt && make distclean
 
-clean_feeds:
-	cd openwrt && ./scripts/feeds clean
-
 add_nak_feeds: submodules
 	(! grep -q netaidkit openwrt/feeds.conf.default && \
 		cd openwrt && sed -i \
