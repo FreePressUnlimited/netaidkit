@@ -1,6 +1,6 @@
 #!/bin/bash
-RELEASE_FILE=files/etc/nak-release
-TIMESTAMP_FILE=files/etc/nak-timestamp
+RELEASE_FILE=openwrt/files/etc/nak-release
+TIMESTAMP_FILE=openwrt/files/etc/nak-timestamp
 
 TAGS=$(git describe --tags)
 echo "$TAGS" > $RELEASE_FILE
