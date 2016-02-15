@@ -14,7 +14,7 @@ image: submodules update_feeds configure install_nak_env \
 
 dev_image: submodules update_feeds configure install_nak_env \
 				enable_root_ssh set_ssh_password update_release_info
-	make -C openwrt
+	+make -C openwrt
 
 submodules:
 	git submodule init
