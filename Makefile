@@ -32,7 +32,7 @@ clean: clean_nak
 mrproper_nak: clean_nak
 	rm -f openwrt/nakd-*
 	rm -f openwrt/nak-web-*
-	rm -f openwrt/files/*
+	rm -rf openwrt/files/*
 
 mrproper: clean mrproper_nak
 	cd openwrt && make distclean
