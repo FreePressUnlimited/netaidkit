@@ -26,14 +26,15 @@ clean_nak:
 	cd openwrt && make package/nakd/clean
 	cd openwrt && make package/nak-web/clean
 
-clean:
+clean: clean_nak
 	cd openwrt && make clean
 
 mrproper_nak: clean_nak
 	rm -f openwrt/nakd-*
 	rm -f openwrt/nak-web-*
+	rm -f openwrt/files/*
 
-mrproper: clean
+mrproper: clean mrproper_nak
 	cd openwrt && make distclean
 
 add_nak_feeds: submodules
