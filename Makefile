@@ -3,7 +3,7 @@ NAK_FEEDS = https://github.com/msgctl/netaidkit-feeds;trunk
 # Not really a proper Makefile, nor it ever can be. Sorry!
 .PHONY: all image submodules clean mrproper update_feeds configure \
 	install_nak_env set_ssh_password enable_root_ssh dev_image \
-    dev_configure update_release_info
+    dev_configure update_release_info clean_feeds
 .DEFAULT: all
 
 all: image
@@ -34,7 +34,7 @@ mrproper_nak: clean_nak
 	rm -f openwrt/dl/nak-web-*
 	rm -rf openwrt/files/*
 
-mrproper: clean mrproper_nak
+mrproper: clean mrproper_nak clean_feeds
 	cd openwrt && make distclean
 
 add_nak_feeds: submodules
@@ -46,6 +46,9 @@ add_nak_feeds: submodules
 update_feeds: add_nak_feeds submodules
 	cd openwrt && ./scripts/feeds update \
 		&& ./scripts/feeds install -a
+
+clean_feeds:
+	rm -rf openwrt/feeds/*
 
 configure: submodules update_feeds
 	rm -f openwrt/.config
