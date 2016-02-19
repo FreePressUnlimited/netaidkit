@@ -48,6 +48,7 @@ update_feeds: add_nak_feeds submodules
 		&& ./scripts/feeds install -a
 
 clean_feeds:
+	rm -rf openwrt/dl/*
 	rm -rf openwrt/feeds/*
 
 configure: submodules update_feeds
