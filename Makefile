@@ -23,11 +23,11 @@ submodules:
 # This will clean package build directories. Package files will temporarily
 # remain in the image root, but it's recreated every time an image is built.
 clean_nak:
-	cd openwrt && make package/nakd/clean
-	cd openwrt && make package/nak-web/clean
+	+cd openwrt && make package/nakd/clean
+	+cd openwrt && make package/nak-web/clean
 
 clean: clean_nak
-	cd openwrt && make clean
+	+cd openwrt && make clean
 
 mrproper_nak: clean_nak
 	rm -f openwrt/dl/nakd-*
@@ -35,7 +35,7 @@ mrproper_nak: clean_nak
 	rm -rf openwrt/files/*
 
 mrproper: clean mrproper_nak clean_feeds
-	cd openwrt && make distclean
+	+cd openwrt && make distclean
 
 add_nak_feeds: submodules
 	(! grep -q netaidkit openwrt/feeds.conf.default && \
@@ -44,7 +44,7 @@ add_nak_feeds: submodules
 		feeds.conf.default) || true
 
 update_feeds: add_nak_feeds submodules
-	cd openwrt && ./scripts/feeds update \
+	+cd openwrt && ./scripts/feeds update \
 		&& ./scripts/feeds install -a
 
 clean_feeds:
@@ -53,16 +53,16 @@ clean_feeds:
 
 configure: submodules update_feeds
 	rm -f openwrt/.config
-	cd openwrt && make defconfig
+	+cd openwrt && make defconfig
 	cat netaidkit.config >> openwrt/.config
-	cd openwrt && (yes "" | make oldconfig)
+	+cd openwrt && (yes "" | make oldconfig)
 
 dev_configure: submodules update_feeds
 	rm -f openwrt/.config
-	cd openwrt && make defconfig
+	+cd openwrt && make defconfig
 	cat netaidkit.config >> openwrt/.config
 	cat netaidkit_dev.config >> openwrt/.config
-	cd openwrt && (yes "" | make oldconfig)
+	+cd openwrt && (yes "" | make oldconfig)
 
 install_nak_env: submodules
 	rm -rf openwrt/files
