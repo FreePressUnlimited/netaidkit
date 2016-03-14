@@ -13,15 +13,26 @@ sudo apt-get update
 sudo apt-get install git-core build-essential libssl-dev libncurses5-dev unzip subversion gawk python python-passlib jq
 ```
 
-
 Create a working directory somewhere and execute the following commands:
 
 ```bash
 git clone https://github.com/radicallyopensecurity/netaidkit
-cd netaidkit && ./build.sh
+make image
 ```
 
-The compiled images will be in the netaidkit/bin folder.
+You'll find the image in netaidkit/openwrt/bin folder.
+
+Development image
+----
+
+For development image, use:
+
+```bash
+make dev_image
+```
+
+ssh port: 2222
+ssh password: `K@qt1)pLMto
 
 Flashing the GL-iNet:
 ----
