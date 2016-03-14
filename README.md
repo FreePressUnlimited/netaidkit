@@ -17,10 +17,10 @@ Create a working directory somewhere and execute the following commands:
 
 ```bash
 git clone https://github.com/radicallyopensecurity/netaidkit
-make image
+cd netaidkit && make image
 ```
 
-You'll find the image in netaidkit/openwrt/bin folder.
+You'll find the image in netaidkit/openwrt/bin directory.
 
 Development image
 ----
@@ -32,6 +32,7 @@ make dev_image
 ```
 
 ssh port: 2222
+
 ssh password: `K@qt1)pLMto
 
 Flashing the GL-iNet:
