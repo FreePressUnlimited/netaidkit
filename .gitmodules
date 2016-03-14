@@ -3,4 +3,4 @@
 	url = https://git.openwrt.org/15.05/openwrt.git
 [submodule "netaidkit-env"]
 	path = netaidkit-env
-	url = https://github.com/msgctl/netaidkit-env.git
+	url = https://github.com/radicallyopensecurity/netaidkit-env.git
