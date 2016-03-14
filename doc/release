@@ -8,6 +8,6 @@ To make a release:
         git tag <version>
 * Build the image
     * run:
-        ./build.sh
+        make -j<N> image
 * Test the resulting image
 * Don't forget to push your tags (man git-push) 
