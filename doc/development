@@ -1,0 +1,73 @@
+DEVELOPER'S GUIDE
+=================
+
+BUILDSYSTEM
+-----------
+Use "make -j<N> dev_image" to build the development image.
+
+BRANCHES
+--------
+Each repository has release branches and 'trunk' branch, used for ongoing
+development. Release branches are meant _only_ for security patches, while
+feature patches are added to 'trunk'.
+
+Unless you are fixing a security bug, use 'trunk'.
+
+FILES
+-----
+netaidkit.config
+- OpenWRT build configuration file applied to the default one
+
+netaidkit_dev.config
+- additional configuration providing packages/settings useful to developers
+
+EXTERNAL REPOSITORIES
+---------------------
+You might need to clone some of these in course of development.
+
+Git submodules:
+openwrt/
+- A clean repository from openwrt.org
+
+netaidkit-env/
+- etc/ directory copied to device rootfs; will vary between devices
+
+Referenced in Makefile:
+netaidkit-feeds
+- OpenWRT package feed repository, passed straight to OpenWRT buildsystem
+
+Referenced in netaidkit-feeds:
+netaidkit-nakd
+- NetAidKit daemon (change PKG_SOURCE_URL in netaidkit-feeds/nakd/Makefile)
+
+netaidkit-web
+- Web UI (netaidkit-feeds/nak-web/Makefile)
+
+COMMIT MESSAGE FORMAT
+---------------------
+Project maintainers prefer to stick to commit message format as described in
+[1], which itself is based on practices adopted notably by Linux kernel
+developers. [2] 
+
+[1] https://wiki.openstack.org/wiki/GitCommitMessages
+[2] https://www.kernel.org/doc/Documentation/SubmittingPatches
+
+SUBMITTING A PATCH
+------------------
+Either e-mail a gpg-signed patch to project maintainers or use a pull-request.
+
+PITFALLS
+--------
+OpenWRT buildsystem won't rebuild your packages if version advertised in
+package feeds hasn't changed. This is especially important if you tie your
+PKG_SOURCE_VERSION to a branch, ie. trunk:
+
+  PKG_SOURCE_URL=https://github.com/radicallyopensecurity/netaidkit-nakd.git
+  PKG_SOURCE_VERSION=trunk
+
+To remedy this, invoke Make with mrproper_nak target before rebuilding, like
+this:
+
+make mrproper_nak && make -j<N> dev_image
+
+OpenWRT still won't rebuild other packages, making for a short turnaround time.
