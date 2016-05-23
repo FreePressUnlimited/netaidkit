@@ -18,7 +18,7 @@ dev_image: submodules update_feeds dev_configure install_nak_env \
 
 submodules:
 	git submodule init
-	git submodule update
+	git submodule update --remote
 
 # This will clean package build directories. Package files will temporarily
 # remain in the image root, but it's recreated every time an image is built.
