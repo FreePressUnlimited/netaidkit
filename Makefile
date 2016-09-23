@@ -69,6 +69,9 @@ install_nak_env: submodules
 	mkdir -p openwrt/files
 	git archive --remote=netaidkit-env --format=tar HEAD | \
 		tar -x -C openwrt/files
+	mkdir -p openwrt/files/usr/share/nak/defaults
+	git archive --remote=netaidkit-env --format=tar HEAD | \
+		tar -x -C openwrt/files/usr/share/nak/defaults
 
 # These changes will end up in openwrt/files, netaidkit-env remains unchanged.
 enable_root_ssh: submodules install_nak_env
