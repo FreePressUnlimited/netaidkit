@@ -1,4 +1,4 @@
-NAK_FEEDS = https://github.com/radicallyopensecurity/netaidkit-feeds;trunk
+NAK_FEEDS = https://github.com/freepressunlimited/netaidkit-feeds;trunk
 
 # Not really a proper Makefile, nor it ever can be. Sorry!
 .PHONY: all image submodules clean mrproper update_feeds configure \
