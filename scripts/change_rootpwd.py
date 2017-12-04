@@ -23,7 +23,7 @@ if len(password) < 8:
 # Generate random salt and create (TODO: use sha512 with libpam) sha512 hash.
 password_h = md5_crypt.encrypt(password) # NOT sha512
 
-with open('openwrt/files/etc/shadow', 'r') as f:
+with open('lede/files/etc/shadow', 'r') as f:
     lines = f.readlines()
     root_ent = [i for i, line in enumerate(lines) if 'root' in line]
 
@@ -34,6 +34,6 @@ with open('openwrt/files/etc/shadow', 'r') as f:
         old_ent[3] = '0'
         lines[i] = ':'.join(old_ent)
 
-with open('openwrt/files/etc/shadow', 'w') as f:
+with open('lede/files/etc/shadow', 'w') as f:
     print 'Updating shadow file (files/etc/shadow)...'
     f.writelines(lines)

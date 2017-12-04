@@ -10,70 +10,70 @@ all: image
 
 image: submodules update_feeds configure install_nak_env \
                                         update_release_info
-	+make -C openwrt
+	+make -C lede
 
 dev_image: submodules update_feeds dev_configure install_nak_env \
 				enable_root_ssh set_ssh_password update_release_info
-	+make -C openwrt
+	+make -C lede
 
 submodules:
-	git submodule init
-	git submodule update --remote
+	git submodule update --init lede
+	git submodule update --init netaidkit-env
 
 # This will clean package build directories. Package files will temporarily
 # remain in the image root, but it's recreated every time an image is built.
 clean_nak:
-	+cd openwrt && make package/nakd/clean
-	+cd openwrt && make package/nak-web/clean
+	+cd lede && make package/nakd/clean
+	+cd lede && make package/nak-web/clean
 
 clean: clean_nak
-	+cd openwrt && make clean
+	+cd lede && make clean
 
 mrproper_nak: clean_nak
-	rm -f openwrt/dl/nakd-*
-	rm -f openwrt/dl/nak-web-*
-	rm -rf openwrt/files/*
+	rm -f lede/dl/nakd-*
+	rm -f lede/dl/nak-web-*
+	rm -rf lede/files/*
 
 mrproper: clean mrproper_nak clean_feeds
-	+cd openwrt && make distclean
+	+cd lede && make distclean
 
 add_nak_feeds: submodules
-	(! grep -q netaidkit openwrt/feeds.conf.default && \
-		cd openwrt && sed -i \
+	(! grep -q netaidkit lede/feeds.conf.default && \
+		cd lede && sed -i \
 		'1 i\src-git netaidkit $(NAK_FEEDS)' \
 		feeds.conf.default) || true
 
 update_feeds: add_nak_feeds submodules
-	+cd openwrt && ./scripts/feeds update \
+	+cd lede && ./scripts/feeds update \
 		&& ./scripts/feeds install -a
 
 clean_feeds:
-	rm -rf openwrt/dl/*
-	rm -rf openwrt/feeds/*
+	rm -rf lede/dl/*
+	rm -rf lede/feeds/*
 
 configure: submodules update_feeds
-	rm -f openwrt/.config
-	+cd openwrt && make defconfig
-	cat netaidkit.config >> openwrt/.config
-	+cd openwrt && (yes "" | make oldconfig)
+	rm -f lede/.config
+	+cd lede && make defconfig
+	cat netaidkit.config >> lede/.config
+	+cd lede && (yes "" | make oldconfig)
 
 dev_configure: submodules update_feeds
-	rm -f openwrt/.config
-	+cd openwrt && make defconfig
-	cat netaidkit.config >> openwrt/.config
-	cat netaidkit_dev.config >> openwrt/.config
-	+cd openwrt && (yes "" | make oldconfig)
+	rm -f lede/.config
+	+cd lede && make defconfig
+	cat netaidkit.config >> lede/.config
+	cat netaidkit_dev.config >> lede/.config
+	+cd lede && (yes "" | make oldconfig)
 
 install_nak_env: submodules
-	rm -rf openwrt/files
-	mkdir -p openwrt/files
+	rm -rf lede/files
+	mkdir -p lede/files
 	git archive --remote=netaidkit-env --format=tar HEAD | \
-		tar -x -C openwrt/files
-	mkdir -p openwrt/files/usr/share/nak/defaults
+		tar -x -C lede/files
+	mkdir -p lede/files/usr/share/nak/defaults
 	git archive --remote=netaidkit-env --format=tar HEAD | \
-		tar -x -C openwrt/files/usr/share/nak/defaults
+		tar -x -C lede/files/usr/share/nak/defaults
 
-# These changes will end up in openwrt/files, netaidkit-env remains unchanged.
+# These changes will end up in lede/files, netaidkit-env remains unchanged.
 enable_root_ssh: submodules install_nak_env
 	./scripts/enable_root_ssh.py
 

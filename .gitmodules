@@ -1,6 +1,6 @@
-[submodule "openwrt"]
-	path = openwrt
-	url = https://git.openwrt.org/15.05/openwrt.git
+[submodule "lede"]
+	path = lede
+	url = https://git.lede-project.org/source.git
 [submodule "netaidkit-env"]
 	path = netaidkit-env
 	url = https://github.com/freepressunlimited/netaidkit-env.git
