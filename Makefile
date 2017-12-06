@@ -52,17 +52,13 @@ clean_feeds:
 	rm -rf lede/feeds/*
 
 configure: submodules update_feeds
-	rm -f lede/.config
-	+cd lede && make defconfig
-	cat netaidkit.config >> lede/.config
-	+cd lede && (yes "" | make oldconfig)
+	cat netaidkit.config > lede/.config
+	+cd lede && make defconfig # expand to full configuration
 
 dev_configure: submodules update_feeds
-	rm -f lede/.config
-	+cd lede && make defconfig
-	cat netaidkit.config >> lede/.config
+	cat netaidkit.config > lede/.config
 	cat netaidkit_dev.config >> lede/.config
-	+cd lede && (yes "" | make oldconfig)
+	+cd lede && make defconfig
 
 install_nak_env: submodules
 	rm -rf lede/files
