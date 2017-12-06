@@ -1,4 +1,5 @@
 NAK_FEEDS = https://github.com/freepressunlimited/netaidkit-feeds;trunk
+LEDE_BRANCH = lede-17.01
 
 # Not really a proper Makefile, nor it ever can be. Sorry!
 .PHONY: all image submodules clean mrproper update_feeds configure \
@@ -17,7 +18,9 @@ dev_image: submodules update_feeds dev_configure install_nak_env \
 	+make -C lede
 
 submodules:
+	(cd lede && git checkout feeds.conf.default || true)
 	git submodule update --init lede
+	cd lede && git checkout origin/$(LEDE_BRANCH)
 	git submodule update --init netaidkit-env
 
 # This will clean package build directories. Package files will temporarily
@@ -36,6 +39,7 @@ mrproper_nak: clean_nak
 
 mrproper: clean mrproper_nak clean_feeds
 	+cd lede && make distclean
+	cd lede && git clean -fd
 
 add_nak_feeds: submodules
 	(! grep -q netaidkit lede/feeds.conf.default && \
