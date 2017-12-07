@@ -20,8 +20,11 @@ dev_image: submodules update_feeds dev_configure install_nak_env \
 submodules:
 	(cd lede && git checkout feeds.conf.default || true)
 	git submodule update --init lede
+	cd lede && git fetch
 	cd lede && git checkout origin/$(LEDE_BRANCH)
 	git submodule update --init netaidkit-env
+	cd netaidkit-env && git fetch
+	cd netaidkit-env && git checkout origin/master
 
 # This will clean package build directories. Package files will temporarily
 # remain in the image root, but it's recreated every time an image is built.
