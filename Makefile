@@ -11,11 +11,13 @@ all: image
 
 image: submodules update_feeds configure install_nak_env \
                                         update_release_info
-	+make -C lede
+	+IGNORE_ERRORS=1 make -C lede # parallel LEDE build fails frequently
+	make -C lede
 
 dev_image: submodules update_feeds dev_configure install_nak_env \
 				enable_root_ssh set_ssh_password update_release_info
-	+make -C lede
+	+IGNORE_ERRORS=1 make -C lede
+	make -C lede
 
 submodules:
 	(cd lede && git checkout feeds.conf.default || true)
@@ -43,6 +45,7 @@ mrproper_nak: clean_nak
 mrproper: clean mrproper_nak clean_feeds
 	+cd lede && make distclean
 	cd lede && git clean -fd
+	cd lede && git reset --hard
 
 add_nak_feeds: submodules
 	(! grep -q netaidkit lede/feeds.conf.default && \
