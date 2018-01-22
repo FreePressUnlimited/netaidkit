@@ -16,7 +16,7 @@ sudo apt-get install git-core build-essential libssl-dev libncurses5-dev unzip s
 Create a working directory somewhere and execute the following commands:
 
 ```bash
-git clone https://github.com/radicallyopensecurity/netaidkit
+git clone https://github.com/FreePressUnlimited/netaidkit
 cd netaidkit && make image
 ```
 
